@@ -30,16 +30,13 @@ let whiteTurn: boolean = true // ? true = white && false == black
 
 const checkDifferences = (board: number[][], beforeboard: number[][]): number[][] => {
   let differences: number[][] = [];
-  // console.log(beforeboard)
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
       if (beforeboard[i][j] != board[i][j]){
-        console.log("HI")
         differences.push([i, j]);
       }
     }
   }
-  console.log(differences);
   return differences;
 }
 
@@ -50,7 +47,6 @@ const substractZeros = (differences: number[][], board: number[][]): number[][] 
       newDifferences.push(i);
     } 
   }
-  console.log(newDifferences)
   return newDifferences;
 }
 
@@ -89,6 +85,5 @@ const detectPiece = (pos: number[], board: number[][]) => {
 let modifications = substractZeros(checkDifferences(board, beforeboard), board);
 
 modifications.forEach(element => {
-  console.log(element);
   detectPiece(element, board);
 })

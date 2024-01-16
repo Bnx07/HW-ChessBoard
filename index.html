@@ -2,119 +2,189 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Board</title>
+  <style>
+    table {
+      border: 1px solid black;
+    }
+
+    td {
+      border: 1px solid black;
+      height: 100px;
+      width: 100px;
+      position: relative;
+    }
+
+    .fa-regular,
+    .fa-solid {
+      font-size: 50px;
+    }
+
+    .dark {
+      background-color: grey;
+    }
+
+    .piece {
+      cursor: pointer;
+      position: absolute;
+    }
+  </style>
 </head>
 
 <body>
-    <style>
-        table {
-            border: 1px solid black;
-        }
+  <table id="chessboard">
+    <!-- Primera fila -->
+    <tr>
+      <td id="square_0_0" class="dark"><i class="fa-solid fa-chess-rook piece"></i></td>
+      <td id="square_0_1"><i class="fa-solid fa-chess-knight piece"></i></td>
+      <td id="square_0_2" class="dark"><i class="fa-solid fa-chess-bishop piece"></i></td>
+      <td id="square_0_3"><i class="fa-solid fa-chess-queen piece"></i></td>
+      <td id="square_0_4" class="dark"><i class="fa-solid fa-chess-king piece"></i></td>
+      <td id="square_0_5"><i class="fa-solid fa-chess-bishop piece"></i></td>
+      <td id="square_0_6" class="dark"><i class="fa-solid fa-chess-knight piece"></i></td>
+      <td id="square_0_7"><i class="fa-solid fa-chess-rook piece"></i></td>
+    </tr>
+    <!-- Segunda fila -->
+    <tr>
+      <td id="square_1_0"><i class="fa-solid fa-chess-pawn piece"></i></td>
+      <td id="square_1_1" class="dark"><i class="fa-solid fa-chess-pawn piece"></i></td>
+      <td id="square_1_2"><i class="fa-solid fa-chess-pawn piece"></i></td>
+      <td id="square_1_3" class="dark"><i class="fa-solid fa-chess-pawn piece"></i></td>
+      <td id="square_1_4"><i class="fa-solid fa-chess-pawn piece"></i></td>
+      <td id="square_1_5" class="dark"><i class="fa-solid fa-chess-pawn piece"></i></td>
+      <td id="square_1_6"><i class="fa-solid fa-chess-pawn piece"></i></td>
+      <td id="square_1_7" class="dark"><i class="fa-solid fa-chess-pawn piece"></i></td>
+    </tr>
+    <!-- Filas vacías -->
+    <tr>
+      <td id="square_2_0"></td>
+      <td id="square_2_1"></td>
+      <td id="square_2_2"></td>
+      <td id="square_2_3"></td>
+      <td id="square_2_4"></td>
+      <td id="square_2_5"></td>
+      <td id="square_2_6"></td>
+      <td id="square_2_7"></td>
+    </tr>
+    <tr>
+      <td id="square_3_0"></td>
+      <td id="square_3_1"></td>
+      <td id="square_3_2"></td>
+      <td id="square_3_3"></td>
+      <td id="square_3_4"></td>
+      <td id="square_3_5"></td>
+      <td id="square_3_6"></td>
+      <td id="square_3_7"></td>
+    </tr>
+    <tr>
+      <td id="square_4_0"></td>
+      <td id="square_4_1"></td>
+      <td id="square_4_2"></td>
+      <td id="square_4_3"></td>
+      <td id="square_4_4"></td>
+      <td id="square_4_5"></td>
+      <td id="square_4_6"></td>
+      <td id="square_4_7"></td>
+    </tr>
+    <tr>
+      <td id="square_5_0"></td>
+      <td id="square_5_1"></td>
+      <td id="square_5_2"></td>
+      <td id="square_5_3"></td>
+      <td id="square_5_4"></td>
+      <td id="square_5_5"></td>
+      <td id="square_5_6"></td>
+      <td id="square_5_7"></td>
+    </tr>
+    <!-- Últimas dos filas -->
+    <tr>
+      <td id="square_6_0" class="dark"><i class="fa-regular fa-chess-pawn piece"></i></td>
+      <td id="square_6_1"><i class="fa-regular fa-chess-pawn piece"></i></td>
+      <td id="square_6_2" class="dark"><i class="fa-regular fa-chess-pawn piece"></i></td>
+      <td id="square_6_3"><i class="fa-regular fa-chess-pawn piece"></i></td>
+      <td id="square_6_4" class="dark"><i class="fa-regular fa-chess-pawn piece"></i></td>
+      <td id="square_6_5"><i class="fa-regular fa-chess-pawn piece"></i></td>
+      <td id="square_6_6" class="dark"><i class="fa-regular fa-chess-pawn piece"></i></td>
+      <td id="square_6_7"><i class="fa-regular fa-chess-pawn piece"></i></td>
+    </tr>
+    <tr>
+      <td id="square_7_0"><i class="fa-regular fa-chess-rook piece"></i></td>
+      <td id="square_7_1" class="dark"><i class="fa-regular fa-chess-knight piece"></i></td>
+      <td id="square_7_2"><i class="fa-regular fa-chess-bishop piece"></i></td>
+      <td id="square_7_3" class="dark"><i class="fa-regular fa-chess-queen piece"></i></td>
+      <td id="square_7_4"><i class="fa-regular fa-chess-king piece"></i></td>
+      <td id="square_7_5" class="dark"><i class="fa-regular fa-chess-bishop piece"></i></td>
+      <td id="square_7_6"><i class="fa-regular fa-chess-knight piece"></i></td>
+      <td id="square_7_7" class="dark"><i class="fa-regular fa-chess-rook piece"></i></td>
+    </tr>
+  </table>
 
-        td {
-            border: 1px solid black;
-            height: 100px;
-            width: 100px;
-        }
+  <script>
+    // Función para mover una pieza de un div a otro
+function movePiece(sourceId, targetId) {
+  const sourceSquare = document.getElementById(sourceId);
+  const targetSquare = document.getElementById(targetId);
 
-        .fa-regular, .fa-solid {
-            font-size: 50px;
-        }
+  if (sourceSquare && targetSquare) {
+    const piece = sourceSquare.querySelector('.piece');
 
-        .dark {
-            background-color: grey;
-        }
-    </style>
+    if (piece) {
+      targetSquare.appendChild(piece);
+    }
+  }
+}
 
-    <!-- <table>
-        <tr>
-            <td><i class="fa-solid fa-chess-rook"></i></td>
-            <td><i class="fa-solid fa-chess-knight"></i></td>
-            <td><i class="fa-solid fa-chess-bishop"></i></td>
-            <td><i class="fa-solid fa-chess-queen"></i></td>
-            <td><i class="fa-solid fa-chess-king"></i></td>
-            <td><i class="fa-solid fa-chess-bishop"></i></td>
-            <td><i class="fa-solid fa-chess-knight"></i></td>
-            <td><i class="fa-solid fa-chess-rook"></i></td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-            <td><i class="fa-solid fa-chess-pawn"></i></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-            <td><i class="fa-regular fa-chess-pawn"></i></td>
-        </tr>
-        <tr>
-            <td><i class="fa-regular fa-chess-rook"></i></td>
-            <td><i class="fa-regular fa-chess-knight"></i></td>
-            <td><i class="fa-regular fa-chess-bishop"></i></td>
-            <td><i class="fa-regular fa-chess-queen"></i></td>
-            <td><i class="fa-regular fa-chess-king"></i></td>
-            <td><i class="fa-regular fa-chess-bishop"></i></td>
-            <td><i class="fa-regular fa-chess-knight"></i></td>
-            <td><i class="fa-regular fa-chess-rook"></i></td>
-        </tr>
-    </table> -->
+// Manejador de clic para las celdas
+function cellClickHandler(event) {
+  const clickedCell = event.target;
 
-    <!-- <script type="module" src="script.js"></script> -->
-    <script src="board2.js"></script>
-    <!-- <script src="pieces.js"></script> -->
-    <script src="https://kit.fontawesome.com/490d09fdd3.js" crossorigin="anonymous"></script>
+  if (clickedCell.classList.contains('piece')) {
+    // Si se hizo clic en una pieza, guarda su posición actual
+    clickedCell.classList.add('selected');
+    const sourceId = clickedCell.parentNode.id;
+
+    // Adjunta un manejador de clic al tablero para seleccionar el destino
+    document.getElementById('chessboard').addEventListener('click', function targetClickHandler(event) {
+      const targetCell = event.target;
+
+      if (targetCell.tagName === 'TD' && !targetCell.contains(clickedCell)) {
+        // Mueve la pieza y elimina la selección
+        const targetId = targetCell.id;
+        movePiece(sourceId, targetId);
+        clickedCell.classList.remove('selected');
+
+        // Elimina el manejador de clic del tablero después de realizar el movimiento
+        document.getElementById('chessboard').removeEventListener('click', targetClickHandler);
+      }
+    });
+  }
+}
+
+// Adjunta el manejador de clic a todas las celdas del tablero
+const cells = document.querySelectorAll('td');
+cells.forEach(cell => {
+  cell.addEventListener('click', cellClickHandler);
+});
+
+// Función para guardar el estado del tablero en una variable
+function saveBoardState() {
+  const boardState = [];
+  const cells = document.querySelectorAll('td');
+
+  cells.forEach(cell => {
+    const piece = cell.querySelector('.piece');
+    const pieceClass = piece ? piece.classList.item(1) : null;
+    boardState.push(pieceClass);
+  });
+
+  console.log(boardState);
+  // Ahora, boardState contiene las clases de las piezas en cada celda
+}
+
+  </script>
+  <script src="https://kit.fontawesome.com/490d09fdd3.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
