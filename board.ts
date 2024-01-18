@@ -4,6 +4,11 @@
 // * bishop = 7   && king = 9     && queen = 11
 // ? Black pieces have +1 value
 
+// TODO: THERE IS NO CASTLING
+// TODO: THERE IS NO EN PASSANT
+
+import { pawnMovement, rookMovement, horseMovement, bishopMovement, queenMovement, kingMovement } from "./pieces.js"
+
 let beforeboard: number[][] = [
   [4, 6, 8, 10, 12, 8, 6, 4],
   [2, 2, 2, 2, 2, 2, 2, 2],
@@ -25,8 +30,6 @@ let board: number[][] = [
   [1, 1, 1, 1, 1, 1, 1, 1],
   [3, 0, 7, 9, 11, 7, 5, 3]
 ];
-
-let whiteTurn: boolean = true // ? true = white && false == black
 
 const checkDifferences = (board: number[][], beforeboard: number[][]): number[][] => {
   let differences: number[][] = [];
@@ -80,6 +83,8 @@ const detectPiece = (pos: number[], board: number[][]) => {
       break;
   }
   console.log(type)
+
+  return type;
 }
 
 let modifications = substractZeros(checkDifferences(board, beforeboard), board);
