@@ -30,6 +30,10 @@
       background-color: rgb(40, 122, 40) !important;
     }
 
+    .attack {
+      background-color: rgb(202, 69, 69) !important;
+    }
+
     .self {
       background-color: rgb(40, 48, 122) !important;
     }
@@ -43,6 +47,7 @@
 
 <body>
   <h1>Añadir color verde a casillas vacias en posible movimiento</h1>
+  <h1>Añadir color rojo a casillas ocupadas en posible movimiento</h1>
   <h1>Añadir que cuando elegis una pieza, el selected te muestre los posibles movimientos</h1>
   <h1>Hacer que se puedan comer piezas</h1>
   <h1>Hacer que cuando un peon llegue al final, puedas elegir a qué corona</h1>
@@ -195,6 +200,7 @@
           const targetCell = event.target;
 
           if (targetCell.tagName === 'TD' && !targetCell.contains(clickedCell)) {
+            
             // Mueve la pieza y elimina la selección
             const targetId = targetCell.id;
             movePiece(sourceId, targetId);
@@ -274,18 +280,26 @@
 
     const paint = (positions, allCells, self) => {
       let newPositions = []
+      let newRedPositions = [];
 
       positions.forEach(element => {
         console.log(element)
         let square = element[0] * 8 + element[1];
-        newPositions.push(square);
+        if (newBoard[element[0]][element[1]] != 0) {
+          newRedPositions.push(square)
+        } else {
+          newPositions.push(square);
+        }
       })
 
       console.log(newPositions)
 
       newPositions.forEach(element => {
-        console.log(allCells[element])
         allCells[element].classList.add("possible");
+      })
+
+      newRedPositions.forEach(element => {
+        allCells[element].classList.add("attack");
       })
 
       allCells[self[0] * 8 + self[1]].classList.add("self");
@@ -314,6 +328,18 @@
         blue = document.getElementsByClassName('self');
 
         blue = blue[0];
+      }
+
+      let red = document.getElementsByClassName('attack');
+
+      red = red[0];
+
+      while (red != null) {
+        red.classList.remove('attack');
+
+        red = document.getElementsByClassName('attack');
+
+        red = red[0];
       }
     }
 

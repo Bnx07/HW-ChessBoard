@@ -6,6 +6,8 @@
 
 // TODO: THERE IS NO CASTLING
 // TODO: THERE IS NO EN PASSANT
+// TODO: THERE IS NO CORONATION
+// TODO: THERE IS NO CHECK
 
 let beforeboard: number[][] = [
   [4, 6, 8, 10, 12, 8, 6, 4],
