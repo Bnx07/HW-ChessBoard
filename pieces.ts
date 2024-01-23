@@ -6,21 +6,18 @@ const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) =>
     // ? Upwards to the right
     // * IS WORKING
     if (board[pawnPos[0] - 1][pawnPos[1] + 1] != 0 && board[pawnPos[0] - 1][pawnPos[1] + 1] % 2 == 0) {
-      console.log("Comer a la derecha");
       possiblePositions.push([pawnPos[0] - 1, pawnPos[1] + 1]);
     }
 
     // ? Upwards to the left
     // * IS WORKING
     if (board[pawnPos[0] - 1][pawnPos[1] - 1] != 0 && board[pawnPos[0] - 1][pawnPos[1] - 1] % 2 == 0) {
-      console.log("Comer a la izquierda");
       possiblePositions.push([pawnPos[0] - 1, pawnPos[1] - 1]);
     }
 
     // ? Upward once
     // * IS WORKING
     if (board[pawnPos[0] - 1][pawnPos[1]] == 0) {
-      console.log("Avanzar");
       possiblePositions.push([pawnPos[0] - 1, pawnPos[1]]);
     }
 
@@ -51,7 +48,7 @@ const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) =>
     }
   }
 
-  console.log("POSIBLES JUGADAS: ", possiblePositions);
+  console.log("POSSIBLE POSITIONS: ", possiblePositions);
 
   return possiblePositions;
 }

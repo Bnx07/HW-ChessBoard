@@ -32,7 +32,6 @@
 // ];
 
 const checkDifferences = (board: number[][], beforeboard: number[][]): number[][] => {
-  console.log("HIIIII")
   let differences: number[][] = [];
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
@@ -64,7 +63,7 @@ const getZeros = (differences: number[][], board:number[][]): number[][] => {
   return newDifferences;
 }
 
-const detectPiece = (pos: number[], board: number[][]) => {
+const detectPiece = (pos: number[], board: number[][]): string => {
   let piece: number = board[pos[0]][pos[1]];
   let type: string;
   if (piece%2 == 0) piece -= 1;
@@ -91,12 +90,11 @@ const detectPiece = (pos: number[], board: number[][]) => {
       type = "null"
       break;
   }
-  console.log(type)
 
   return type;
 }
 
-function printBoard(board) {
+function printBoard(board: number[][]): void {
   for (let row = 0; row <= 7; row++) {
     let rowString = "|";
     for (let col = 0; col < 8; col++) {
@@ -110,8 +108,26 @@ function printBoard(board) {
   console.log(('---------------------------------'));
 }
 
-// Función para obtener la letra de la pieza según su valor numérico
-function getPieceLetter(pieceValue) {
+function printPossibleBoard(board: number[][], possibleMovements: number[][]): void {
+  for (let row = 0; row <= 7; row++) {
+    let rowString = "|";
+    for (let col = 0; col < 8; col++) {
+      const piece = board[row][col];
+      let pieceChar = getPieceLetter(piece);
+
+      possibleMovements.forEach((movement) => {
+        if (row == movement[0] && col == movement[1]) pieceChar = "#"
+      })
+
+      rowString += ` ${pieceChar} |`;
+    }
+    console.log(('---------------------------------'));
+    console.log(rowString);
+  }
+  console.log(('---------------------------------'));
+}
+
+function getPieceLetter(pieceValue: number): string {
   switch (pieceValue) {
     case 1: return 'P'; // Peón blanco
     case 2: return 'p'; // Peón negro
@@ -129,12 +145,4 @@ function getPieceLetter(pieceValue) {
   }
 }
 
-// let modifications = substractZeros(checkDifferences(board, beforeboard), board);
-
-// modifications.forEach(element => {
-//   detectPiece(element, board);
-// })
-
-// printBoard(board);
-
-export {checkDifferences, substractZeros, getZeros, detectPiece, printBoard}
+export { checkDifferences, substractZeros, getZeros, detectPiece, printBoard, printPossibleBoard }
