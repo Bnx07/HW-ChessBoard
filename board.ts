@@ -6,8 +6,8 @@
 
 // TODO: THERE IS NO CASTLING
 // TODO: THERE IS NO EN PASSANT
-
-import { pawnMovement, rookMovement, horseMovement, bishopMovement, queenMovement, kingMovement } from "./pieces.js"
+// TODO: THERE IS NO CORONATION
+// TODO: THERE IS NO CHECK
 
 let beforeboard: number[][] = [
   [4, 6, 8, 10, 12, 8, 6, 4],
@@ -87,8 +87,43 @@ const detectPiece = (pos: number[], board: number[][]) => {
   return type;
 }
 
+function printBoard(board) {
+  for (let row = 0; row <= 7; row++) {
+    let rowString = "|";
+    for (let col = 0; col < 8; col++) {
+      const piece = board[row][col];
+      const pieceChar = getPieceLetter(piece);
+      rowString += ` ${pieceChar} |`;
+    }
+    console.log(('---------------------------------'));
+    console.log(rowString);
+  }
+  console.log(('---------------------------------'));
+}
+
+// Función para obtener la letra de la pieza según su valor numérico
+function getPieceLetter(pieceValue) {
+  switch (pieceValue) {
+    case 1: return 'P'; // Peón blanco
+    case 2: return 'p'; // Peón negro
+    case 3: return 'R'; // Torre blanca
+    case 4: return 'r'; // Torre negra
+    case 5: return 'N'; // Caballo blanco
+    case 6: return 'n'; // Caballo negro
+    case 7: return 'B'; // Alfil blanco
+    case 8: return 'b'; // Alfil negro
+    case 9: return 'K'; // Rey blanco
+    case 10: return 'k'; // Rey negro
+    case 11: return 'Q'; // Reina blanca
+    case 12: return 'q'; // Reina negra
+    default: return ' ';
+  }
+}
+
 let modifications = substractZeros(checkDifferences(board, beforeboard), board);
 
 modifications.forEach(element => {
   detectPiece(element, board);
 })
+
+printBoard(board);
