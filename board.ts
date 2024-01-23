@@ -1,36 +1,3 @@
-// ! ODD = WHITE
-// ! EVEN = BLACK 
-// * pawn = 1     && rook = 3     && knight = 5 
-// * bishop = 7   && king = 9     && queen = 11
-// ? Black pieces have +1 value
-
-// TODO: THERE IS NO CASTLING
-// TODO: THERE IS NO EN PASSANT
-// TODO: THERE IS NO CORONATION
-// TODO: THERE IS NO CHECK
-
-// let beforeboard: number[][] = [
-//   [4, 6, 8, 10, 12, 8, 6, 4],
-//   [2, 2, 2, 2, 2, 2, 2, 2],
-//   [0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0],
-//   [1, 1, 1, 1, 1, 1, 1, 1],
-//   [3, 5, 7, 9, 11, 7, 5, 3]
-// ];
-
-// let board: number[][] = [
-//   [4, 6, 8, 10, 12, 8, 6, 4],
-//   [2, 2, 2, 2, 2, 2, 2, 2],
-//   [0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 5, 0, 0, 0, 0, 0],
-//   [1, 1, 1, 1, 1, 1, 1, 1],
-//   [3, 0, 7, 9, 11, 7, 5, 3]
-// ];
-
 const checkDifferences = (board: number[][], beforeboard: number[][]): number[][] => {
   let differences: number[][] = [];
   for (var i = 0; i < 8; i++) {
@@ -63,8 +30,7 @@ const getZeros = (differences: number[][], board:number[][]): number[][] => {
   return newDifferences;
 }
 
-const detectPiece = (pos: number[], board: number[][]): string => {
-  let piece: number = board[pos[0]][pos[1]];
+const detectPiece = (piece: number): string => {
   let type: string;
   if (piece%2 == 0) piece -= 1;
   switch (piece) {
