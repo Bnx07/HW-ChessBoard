@@ -9,29 +9,30 @@
 // TODO: THERE IS NO CORONATION
 // TODO: THERE IS NO CHECK
 
-let beforeboard: number[][] = [
-  [4, 6, 8, 10, 12, 8, 6, 4],
-  [2, 2, 2, 2, 2, 2, 2, 2],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1],
-  [3, 5, 7, 9, 11, 7, 5, 3]
-];
+// let beforeboard: number[][] = [
+//   [4, 6, 8, 10, 12, 8, 6, 4],
+//   [2, 2, 2, 2, 2, 2, 2, 2],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [1, 1, 1, 1, 1, 1, 1, 1],
+//   [3, 5, 7, 9, 11, 7, 5, 3]
+// ];
 
-let board: number[][] = [
-  [4, 6, 8, 10, 12, 8, 6, 4],
-  [2, 2, 2, 2, 2, 2, 2, 2],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 5, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1],
-  [3, 0, 7, 9, 11, 7, 5, 3]
-];
+// let board: number[][] = [
+//   [4, 6, 8, 10, 12, 8, 6, 4],
+//   [2, 2, 2, 2, 2, 2, 2, 2],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 5, 0, 0, 0, 0, 0],
+//   [1, 1, 1, 1, 1, 1, 1, 1],
+//   [3, 0, 7, 9, 11, 7, 5, 3]
+// ];
 
 const checkDifferences = (board: number[][], beforeboard: number[][]): number[][] => {
+  console.log("HIIIII")
   let differences: number[][] = [];
   for (var i = 0; i < 8; i++) {
     for (var j = 0; j < 8; j++) {
@@ -53,12 +54,20 @@ const substractZeros = (differences: number[][], board: number[][]): number[][] 
   return newDifferences;
 }
 
+const getZeros = (differences: number[][], board:number[][]): number[][] => {
+  let newDifferences: number[][] = [];
+  for (const i of differences) {
+    if (board[i[0]][i[1]] == 0) {
+      newDifferences.push(i);
+    } 
+  }
+  return newDifferences;
+}
+
 const detectPiece = (pos: number[], board: number[][]) => {
   let piece: number = board[pos[0]][pos[1]];
   let type: string;
-  console.log(piece)
   if (piece%2 == 0) piece -= 1;
-  console.log(piece)
   switch (piece) {
     case 1:
       type = "pawn";
@@ -120,10 +129,12 @@ function getPieceLetter(pieceValue) {
   }
 }
 
-let modifications = substractZeros(checkDifferences(board, beforeboard), board);
+// let modifications = substractZeros(checkDifferences(board, beforeboard), board);
 
-modifications.forEach(element => {
-  detectPiece(element, board);
-})
+// modifications.forEach(element => {
+//   detectPiece(element, board);
+// })
 
-printBoard(board);
+// printBoard(board);
+
+export {checkDifferences, substractZeros, getZeros, detectPiece, printBoard}
