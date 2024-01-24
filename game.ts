@@ -9,8 +9,6 @@ import { pawnMovement, rookMovement, horseMovement, bishopMovement, queenMovemen
 // * bishop = 7   && king = 9     && queen = 11
 // ? Black pieces have +1 value
 
-// FIXME: Beforeboard doesnt change when checkPosition modifies it
-
 // TODO: THERE IS NO CASTLING
 // TODO: THERE IS NO EN PASSANT
 // TODO: THERE IS NO CORONATION
@@ -50,12 +48,10 @@ function askForPos(board: number[][], beforeboard: number[][]): void {
 
   if (selectedPiece != 0) {
     board[selectedPos[0]][selectedPos[1]] = 0;
-  
+    
     let differences = checkDifferences(board, beforeboard);
-    console.log("Differences: ", differences)
     
     let zeros = getZeros(differences, board);
-    console.log("Zeros: ", zeros);
   
     if (zeros.length == 1) {
       let type = detectPiece(selectedPiece);
@@ -97,7 +93,7 @@ function askForPos(board: number[][], beforeboard: number[][]): void {
 
         let isValid = false;
 
-        checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece);
+        beforeboard = checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece);
       }
     }
   }
@@ -111,7 +107,7 @@ function askQuestionSync(question: string): string {
   return readlineSync.question(question);
 }
 
-function checkPosition(board: number[][], beforeboard: number[][], possibleMovements: number[][], isValid: boolean, selectedPiece: number) {
+function checkPosition(board: number[][], beforeboard: number[][], possibleMovements: number[][], isValid: boolean, selectedPiece: number): number[][] {
   let pickedMovement = askQuestionSync('Select one of the positions marked with #: ')
   let selectedMovement = JSON.parse(pickedMovement);
   for (const possibleMovement of possibleMovements) {
@@ -119,16 +115,11 @@ function checkPosition(board: number[][], beforeboard: number[][], possibleMovem
   }
     
   if (isValid) {
-    console.log(selectedMovement);
-    console.log(selectedPiece);
     board[selectedMovement[0]][selectedMovement[1]] = selectedPiece;
-    console.log(board[selectedMovement[0]][selectedMovement[1]])
-    console.log("Beforeboard: ", beforeboard);
-    beforeboard = board;
-    console.log(checkDifferences(board, beforeboard));
+    beforeboard = JSON.parse(JSON.stringify(board));
     return beforeboard;
   } else {
-    checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece);
+    return checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece);
   }
 }
 
