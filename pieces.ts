@@ -27,12 +27,12 @@ const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) =>
     }
 
     // ? Left (En passsant)
-    if (board[pawnPos[0]][pawnPos[1] + 1] == 18) {
+    if (board[pawnPos[0]][pawnPos[1] + 1] == 22) {
       possiblePositions.push([pawnPos[0] - 1, pawnPos[1] + 1]);
     }
 
     // ? Right (En passant)
-    if (board[pawnPos[0]][pawnPos[1] - 1] == 18) {
+    if (board[pawnPos[0]][pawnPos[1] - 1] == 22) {
       possiblePositions.push([pawnPos[0] - 1, pawnPos[1] - 1])
     }
   } else {
@@ -58,12 +58,12 @@ const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) =>
     }
 
     // ? Left (En passsant)
-    if (board[pawnPos[0]][pawnPos[1] + 1] == 17) {
+    if (board[pawnPos[0]][pawnPos[1] + 1] == 21) {
       possiblePositions.push([pawnPos[0] + 1, pawnPos[1] + 1]);
     }
 
     // ? Right (En passant)
-    if (board[pawnPos[0]][pawnPos[1] - 1] == 17) {
+    if (board[pawnPos[0]][pawnPos[1] - 1] == 21) {
       possiblePositions.push([pawnPos[0] + 1, pawnPos[1] - 1])
     }
   }
@@ -203,7 +203,7 @@ const kingMovement = (board: number[][], kingPos: number[], isWhite: boolean, ca
   }
 
   if (canCastle) {
-    if (board[kingPos[0]][0] == 13 || board[kingPos[0]][0] == 14) { // ? Left corner
+    if (board[kingPos[0]][0] == 23 || board[kingPos[0]][0] == 24) { // ? Left corner
       for (var i = 1; i++; i < 4) {
         if (board[kingPos[0]][4 - i] != 0) break;
         else {
@@ -214,7 +214,7 @@ const kingMovement = (board: number[][], kingPos: number[], isWhite: boolean, ca
       // TEST: Theoretically OK
     }
 
-    if (board[kingPos[0]][7] == 13 || board[kingPos[0]][7] == 14) { // ? Left corner
+    if (board[kingPos[0]][7] == 23 || board[kingPos[0]][7] == 24) { // ? Left corner
       for (var i = 1; i++; i < 3) {
         if (board[kingPos[0]][4 + i] != 0) break;
         else {

@@ -7,43 +7,40 @@ import { pawnMovement, rookMovement, horseMovement, bishopMovement, queenMovemen
 // ! EVEN = BLACK 
 // * pawn = 1     && rook = 3     && knight = 5 
 // * bishop = 7   && king = 9     && queen = 11
-// * rookNoMove = 13 && kingNoMove = 15
-// * Advanced Pawn = 17
+// * rookNoMove = 23 && kingNoMove = 29
+// * Advanced Pawn = 21
 // ? Black pieces have +1 value
 
-// TODO: THERE IS NO CASTLING
-// ! THERE IS CASTLING DETECTION BUT THERE IS NO CASTLING ITSELF
 // TODO: THERE IS NO EN PASSANT
 // ! THERE IS EN PASSANT DETECTION BUT THERE IS NO STATE CHANGING
 // TODO: THERE IS NO CORONATION
 // * Should be write 0 for selecting the option OR write 1 for changing
-// TODO: UPDATE PAWN VALUE TO 17 OR 18 AFTER MOVING TWICE 
-// TODO: UPDATE ROOKS AND KING VALUES AFTER FIRST MOVEMENT
+// TODO: UPDATE PAWN VALUE TO 21 OR 22 AFTER MOVING TWICE 
 // TODO: RETURN PAWN VALUE TO DEFAULT AFTER A TURN
 
 // * In order of implementing castling, rooks and kings will have a special state when havent moved, if they have the value, they can see for coronating
 // * In order of implementing en passant, pawns will keep a special state after moving twice. After the next movement, the special pawns must return to their default value
 
 let beforeboard: number[][] = [
-  [14, 6, 8, 12, 16, 8, 6, 14],
+  [24, 6, 8, 12, 30, 8, 6, 24],
   [2, 2, 2, 2, 2, 2, 2, 2],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1],
-  [13, 5, 7, 11, 15, 7, 5, 13]
+  [23, 5, 7, 11, 29, 7, 5, 23]
 ];
 
 let board: number[][] = [
-  [14, 6, 8, 12, 16, 8, 6, 14],
+  [24, 6, 8, 12, 30, 8, 6, 24],
   [2, 2, 2, 2, 2, 2, 2, 2],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1],
-  [13, 5, 7, 11, 15, 7, 5, 13]
+  [23, 5, 7, 11, 29, 7, 5, 23]
 ];
 
 function askForPos(board: number[][], beforeboard: number[][]): void {
@@ -91,7 +88,7 @@ function askForPos(board: number[][], beforeboard: number[][]): void {
           break;
         case "king":
           let castling = false;
-          if (selectedPiece > 14) castling = true;
+          if (selectedPiece > 20) castling = true;
           possibleMovements = kingMovement(board, selectedPos, isWhite, castling);
           break;
         default:
@@ -131,7 +128,24 @@ function checkPosition(board: number[][], beforeboard: number[][], possibleMovem
   if (originalPos[0] == selectedMovement[0] && originalPos[1] == selectedMovement[1]) isValid = true;
     
   if (isValid) {
-    board[selectedMovement[0]][selectedMovement[1]] = selectedPiece;
+    if (selectedPiece == 29) {
+      if (selectedMovement[1] - 2 == 4) {
+        board[selectedMovement[0]][7] = 0;
+        board[selectedMovement[0]][5] = 3;
+      } else if (selectedMovement[1] - 2 == 0) {
+        board[selectedMovement[0]][0] = 0;
+        board[selectedMovement[0]][3] = 3;
+      }
+    } else if (selectedPiece == 30) {
+      if (selectedMovement[1] - 2 == 4) {
+        board[selectedMovement[0]][7] = 0;
+        board[selectedMovement[0]][5] = 4;
+      } else if (selectedMovement[1] - 2 == 0) {
+        board[selectedMovement[0]][0] = 0;
+        board[selectedMovement[0]][3] = 4;
+      }
+    }
+    (selectedPiece > 20) ? board[selectedMovement[0]][selectedMovement[1]] = selectedPiece - 20 : board[selectedMovement[0]][selectedMovement[1]] = selectedPiece;
     beforeboard = JSON.parse(JSON.stringify(board));
     return beforeboard;
   } else {
