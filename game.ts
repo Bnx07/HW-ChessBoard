@@ -7,33 +7,43 @@ import { pawnMovement, rookMovement, horseMovement, bishopMovement, queenMovemen
 // ! EVEN = BLACK 
 // * pawn = 1     && rook = 3     && knight = 5 
 // * bishop = 7   && king = 9     && queen = 11
+// * rookNoMove = 13 && kingNoMove = 15
+// * Advanced Pawn = 17
 // ? Black pieces have +1 value
 
 // TODO: THERE IS NO CASTLING
+// ! THERE IS CASTLING DETECTION BUT THERE IS NO CASTLING ITSELF
 // TODO: THERE IS NO EN PASSANT
+// ! THERE IS EN PASSANT DETECTION BUT THERE IS NO STATE CHANGING
 // TODO: THERE IS NO CORONATION
-// TODO: THERE IS NO CHECK
+// * Should be write 0 for selecting the option OR write 1 for changing
+// TODO: UPDATE PAWN VALUE TO 17 OR 18 AFTER MOVING TWICE 
+// TODO: UPDATE ROOKS AND KING VALUES AFTER FIRST MOVEMENT
+// TODO: RETURN PAWN VALUE TO DEFAULT AFTER A TURN
+
+// * In order of implementing castling, rooks and kings will have a special state when havent moved, if they have the value, they can see for coronating
+// * In order of implementing en passant, pawns will keep a special state after moving twice. After the next movement, the special pawns must return to their default value
 
 let beforeboard: number[][] = [
-  [4, 6, 8, 12, 10, 8, 6, 4],
+  [14, 6, 8, 12, 16, 8, 6, 14],
   [2, 2, 2, 2, 2, 2, 2, 2],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1],
-  [3, 5, 7, 11, 9, 7, 5, 3]
+  [13, 5, 7, 11, 15, 7, 5, 13]
 ];
 
 let board: number[][] = [
-  [4, 6, 8, 12, 10, 8, 6, 4],
+  [14, 6, 8, 12, 16, 8, 6, 14],
   [2, 2, 2, 2, 2, 2, 2, 2],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [1, 1, 1, 1, 1, 1, 1, 1],
-  [3, 5, 7, 11, 9, 7, 5, 3]
+  [13, 5, 7, 11, 15, 7, 5, 13]
 ];
 
 function askForPos(board: number[][], beforeboard: number[][]): void {
@@ -60,6 +70,8 @@ function askForPos(board: number[][], beforeboard: number[][]): void {
       console.log("Is white: ", isWhite);
 
       let possibleMovements: number[][];
+      
+      console.log("Piece value:", type);
 
       switch(type) {
         case "pawn":
@@ -68,7 +80,7 @@ function askForPos(board: number[][], beforeboard: number[][]): void {
         case "rook":
           possibleMovements = rookMovement(board, selectedPos, isWhite);
           break;
-        case "horse":
+        case "knight":
           possibleMovements = horseMovement(board, selectedPos, isWhite);
           break;
         case "bishop":
@@ -78,7 +90,9 @@ function askForPos(board: number[][], beforeboard: number[][]): void {
           possibleMovements = queenMovement(board, selectedPos, isWhite);
           break;
         case "king":
-          possibleMovements = kingMovement(board, selectedPos, isWhite);
+          let castling = false;
+          if (selectedPiece > 14) castling = true;
+          possibleMovements = kingMovement(board, selectedPos, isWhite, castling);
           break;
         default:
           possibleMovements = [];
@@ -93,7 +107,7 @@ function askForPos(board: number[][], beforeboard: number[][]): void {
 
         let isValid = false;
 
-        beforeboard = checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece);
+        beforeboard = checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece, selectedPos);
       }
     }
   }
@@ -107,19 +121,21 @@ function askQuestionSync(question: string): string {
   return readlineSync.question(question);
 }
 
-function checkPosition(board: number[][], beforeboard: number[][], possibleMovements: number[][], isValid: boolean, selectedPiece: number): number[][] {
+function checkPosition(board: number[][], beforeboard: number[][], possibleMovements: number[][], isValid: boolean, selectedPiece: number, originalPos: number[]): number[][] {
   let pickedMovement = askQuestionSync('Select one of the positions marked with #: ')
   let selectedMovement = JSON.parse(pickedMovement);
   for (const possibleMovement of possibleMovements) {
     if (possibleMovement[0] == selectedMovement[0] && possibleMovement[1] == selectedMovement[1]) isValid = true;
   }
+
+  if (originalPos[0] == selectedMovement[0] && originalPos[1] == selectedMovement[1]) isValid = true;
     
   if (isValid) {
     board[selectedMovement[0]][selectedMovement[1]] = selectedPiece;
     beforeboard = JSON.parse(JSON.stringify(board));
     return beforeboard;
   } else {
-    return checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece);
+    return checkPosition(board, beforeboard, possibleMovements, isValid, selectedPiece, originalPos);
   }
 }
 

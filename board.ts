@@ -52,6 +52,15 @@ const detectPiece = (piece: number): string => {
     case 11:
       type = "queen";
       break;
+    case 13:
+      type = "rook"
+      break;
+    case 15:
+      type = "king"
+      break;
+    case 17:
+      type = "pawn";
+      break;
     default: 
       type = "null"
       break;
@@ -107,6 +116,12 @@ function getPieceLetter(pieceValue: number): string {
     case 10: return 'k'; // Rey negro
     case 11: return 'Q'; // Reina blanca
     case 12: return 'q'; // Reina negra
+    case 13: return 'R'; // Rey blanco sin moverse
+    case 14: return 'r'; // Rey negro sin moverse
+    case 15: return 'K'; // Torre blanca sin moverse
+    case 16: return 'k'; // Torre negra sin moverse
+    case 17: return 'P'; // Peon blanco tras avanzar doble
+    case 18: return 'p'; // Peon negro tras avanzar doble
     default: return ' ';
   }
 }

@@ -1,4 +1,4 @@
-const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) => { // ! THEORETICALLY IS OK
+const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) => {
   let possiblePositions: number[][] = []
 
   if (isWhite == true) {
@@ -25,6 +25,16 @@ const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) =>
     if (pawnPos[0] == 6 && board[pawnPos[0] - 1][pawnPos[1]] == 0 && board[pawnPos[0] - 2][pawnPos[1]] == 0) {
       possiblePositions.push([pawnPos[0] - 2, pawnPos[1]]);
     }
+
+    // ? Left (En passsant)
+    if (board[pawnPos[0]][pawnPos[1] + 1] == 18) {
+      possiblePositions.push([pawnPos[0] - 1, pawnPos[1] + 1]);
+    }
+
+    // ? Right (En passant)
+    if (board[pawnPos[0]][pawnPos[1] - 1] == 18) {
+      possiblePositions.push([pawnPos[0] - 1, pawnPos[1] - 1])
+    }
   } else {
 
     // ? Downward to the right
@@ -45,6 +55,16 @@ const pawnMovement = (board: number[][], pawnPos: number[], isWhite: boolean) =>
     // ? Downward twice
     if (pawnPos[0] == 1 && board[pawnPos[0] + 1][pawnPos[1]] == 0 && board[pawnPos[0] + 2][pawnPos[1]] == 0) {
       possiblePositions.push([pawnPos[0] + 2, pawnPos[1]]);
+    }
+
+    // ? Left (En passsant)
+    if (board[pawnPos[0]][pawnPos[1] + 1] == 17) {
+      possiblePositions.push([pawnPos[0] + 1, pawnPos[1] + 1]);
+    }
+
+    // ? Right (En passant)
+    if (board[pawnPos[0]][pawnPos[1] - 1] == 17) {
+      possiblePositions.push([pawnPos[0] + 1, pawnPos[1] - 1])
     }
   }
 
@@ -83,6 +103,8 @@ const rookMovement = (board: number[][], rookPos: number[], isWhite: boolean): n
     }
   }
 
+  console.log("POSSIBLE POSITIONS: ", possiblePositions);
+
   return possiblePositions;
 };
 
@@ -107,6 +129,8 @@ const horseMovement = (board: number[][], horsePos: number[], isWhite: boolean):
       }
     }
   }
+
+  console.log("POSSIBLE POSITIONS: ", possiblePositions);
 
   return possiblePositions;
 }
@@ -141,6 +165,8 @@ const bishopMovement = (board: number[][], bishopPos: number[], isWhite: boolean
     }
   }
 
+  console.log("POSSIBLE POSITIONS: ", possiblePositions);
+
   return possiblePositions;
 };
 
@@ -150,10 +176,12 @@ const queenMovement = (board: number[][], queenPos: number[], isWhite: boolean):
   
   const possiblePositions: number[][] = rookPossible.concat(bishopPossible);
 
+  console.log("POSSIBLE POSITIONS: ", possiblePositions);
+
   return possiblePositions;
 }
 
-const kingMovement = (board: number[][], kingPos: number[], isWhite: boolean): number[][] => {
+const kingMovement = (board: number[][], kingPos: number[], isWhite: boolean, canCastle: boolean): number[][] => {
   const possiblePositions: number[][] = [];
   const directions = [
     [1, 0], [1, 1], [0, 1], [-1, 0],
@@ -173,6 +201,32 @@ const kingMovement = (board: number[][], kingPos: number[], isWhite: boolean): n
       }
     }
   }
+
+  if (canCastle) {
+    if (board[kingPos[0]][0] == 13 || board[kingPos[0]][0] == 14) { // ? Left corner
+      for (var i = 1; i++; i < 4) {
+        if (board[kingPos[0]][4 - i] != 0) break;
+        else {
+          if (i == 3) possiblePositions.push([kingPos[0], kingPos[1] - 2]);
+          console.log(`Square [${kingPos[0]}, ${4 - i}]: ${board[kingPos[0]][4 - i]} - VALOR DE i: ${i}`);
+        }
+      }
+      // TEST: Theoretically OK
+    }
+
+    if (board[kingPos[0]][7] == 13 || board[kingPos[0]][7] == 14) { // ? Left corner
+      for (var i = 1; i++; i < 3) {
+        if (board[kingPos[0]][4 + i] != 0) break;
+        else {
+          if (i == 2) possiblePositions.push([kingPos[0], kingPos[1] + 2]);
+          console.log(`Square [${kingPos[0]}, ${4 + i}]: ${board[kingPos[0]][4 - i]} - VALOR DE i: ${i}`);
+        }
+      }
+      // TEST: Theoretically OK
+    }
+  }
+
+  console.log("POSSIBLE POSITIONS: ", possiblePositions);
 
   return possiblePositions;
 };
