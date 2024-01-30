@@ -11,9 +11,6 @@ import { pawnMovement, rookMovement, horseMovement, bishopMovement, queenMovemen
 // * Advanced Pawn = 21
 // ? Black pieces have +1 value
 
-// TODO: THERE IS NO CORONATION
-// * Should be write 0 for selecting the option OR write 1 for changing
-
 // * In order of implementing castling, rooks and kings will have a special state when havent moved, if they have the value, they can see for coronating
 // * In order of implementing en passant, pawns will keep a special state after moving twice. After the next movement, the special pawns must return to their default value
 
@@ -146,15 +143,50 @@ function checkPosition(board: number[][], beforeboard: number[][], possibleMovem
       selectedPiece = 22;
     } else if (selectedPiece == 21 || selectedPiece == 22) {
       selectedPiece -= 20;
-    } else if (selectedPiece == 1 || selectedPiece == 2 || selectedPiece == 21 || selectedPiece == 22) {
+    } else if (selectedPiece == 1 || selectedPiece == 2) {
       if (selectedMovement[1] != originalPos[1] && board[selectedMovement[0]][selectedMovement[1]] == 0) {
         board[originalPos[0]][selectedMovement[1]] = 0;
+      } else if (selectedMovement[0] == 0 || selectedMovement[0] == 7) {
+        let current = 0;
+        let possibleCoronations: string[] = ["queen", "knight", "bishop", "rook"];
+
+        while(true) {
+          let response = askQuestionSync(`Currently selecting ${possibleCoronations[current]}. Press 1 to select or 0 to change: `);
+          if (response == "1") {
+            
+            let team = selectedPiece % 2;
+
+            switch (possibleCoronations[current]) {
+              case "queen":
+                selectedPiece = 12 - team;
+                break;
+              case "knight":
+                selectedPiece = 6 - team;
+                break;
+              case "rook":
+                selectedPiece = 4 - team;
+                break;
+              case "bishop":
+                selectedPiece = 8 - team;
+                break;
+            }
+
+            break;
+          } else {
+            if (current < possibleCoronations.length - 1) {
+              current += 1;
+            } else {
+              current = 0;
+            }
+          }
+        }
       }
     }
 
     updateEnPassantPawns(board);
 
     (selectedPiece > 22) ? board[selectedMovement[0]][selectedMovement[1]] = selectedPiece - 20 : board[selectedMovement[0]][selectedMovement[1]] = selectedPiece;
+
     beforeboard = JSON.parse(JSON.stringify(board));
     return beforeboard;
   } else {

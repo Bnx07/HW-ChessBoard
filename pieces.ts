@@ -211,7 +211,6 @@ const kingMovement = (board: number[][], kingPos: number[], isWhite: boolean, ca
           console.log(`Square [${kingPos[0]}, ${4 - i}]: ${board[kingPos[0]][4 - i]} - VALOR DE i: ${i}`);
         }
       }
-      // TEST: Theoretically OK
     }
 
     if (board[kingPos[0]][7] == 23 || board[kingPos[0]][7] == 24) { // ? Left corner
@@ -222,7 +221,6 @@ const kingMovement = (board: number[][], kingPos: number[], isWhite: boolean, ca
           console.log(`Square [${kingPos[0]}, ${4 + i}]: ${board[kingPos[0]][4 - i]} - VALOR DE i: ${i}`);
         }
       }
-      // TEST: Theoretically OK
     }
   }
 
